@@ -20,6 +20,8 @@ class EloquentUser extends Authenticatable
 
     protected $fillable = [
         'uuid',
+        'role',
+        'image_src',
         'name',
         'email',
         'password',
@@ -27,13 +29,11 @@ class EloquentUser extends Authenticatable
 
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
         ];
     }
 
