@@ -8,15 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('families', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
 
-            $table->string('role');
-            $table->string('image_src')->nullable();
+            $table->boolean('active')->default(true);
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
 
             $table->timestamps();
             $table->softDeletes();
@@ -26,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('families');
     }
 };
