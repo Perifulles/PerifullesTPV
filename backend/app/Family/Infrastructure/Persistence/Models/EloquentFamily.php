@@ -15,6 +15,7 @@ class EloquentFamily extends Model
         'uuid',
         'name',
         'active',
+        'restaurant_id',
     ];
 
     protected function casts(): array
