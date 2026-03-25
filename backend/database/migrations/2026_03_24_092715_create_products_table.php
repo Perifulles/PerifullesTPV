@@ -14,11 +14,13 @@ return new class extends Migration
 
             $table->foreignId('family_id')->constrained('families');
             $table->foreignId('tax_id')->constrained('taxes');
+            $table->foreignId('restaurant_id')->constrained('restaurants');
             $table->string('image_src')->nullable();
             $table->string('name');
             $table->integer('price');
             $table->integer('stock');
             $table->boolean('active');
+
             
             $table->timestamps();
             $table->softDeletes();

@@ -12,16 +12,13 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
 
+            $table->foreignId('restaurant_id')->constrained('restaurants');
+            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('user_id')->constrained('users');
             $table->integer('ticket_number')->nullable();
-            $table->string('status');
-            $table->foreignId('table_id')->constrained('tables');
-            $table->foreignId('opened_by_user_id')->constrained('users');
-            $table->foreignId('closed_by_user_id')->nullable()->constrained('users');
-            $table->integer('diners');
-            $table->timestamp('opened_at')->nullable();
-            $table->timestamp('closed_at')->nullable();
+            $table->timestamp('value_date')->nullable();
             $table->integer('total')->nullable();
-
+            
             $table->timestamps();
             $table->softDeletes();
         });

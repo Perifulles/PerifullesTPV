@@ -14,6 +14,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->integer('percentage');
+            $table->foreignId('restaurant_id')->constrained('restaurants');
             
             $table->timestamps();
             $table->softDeletes();

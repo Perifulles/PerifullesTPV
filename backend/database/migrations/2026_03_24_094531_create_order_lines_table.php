@@ -8,12 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('zones', function (Blueprint $table) {
+        Schema::create('order_lines', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            
-            $table->string('name');
+
             $table->foreignId('restaurant_id')->constrained('restaurants');
+            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('product_id')->constrained('products');
+            $table->foreignId('user_id')->constrained('users');
+            $table->integer('quantity');
+            $table->integer('price');
+            $table->integer('tax_percentage');
 
             $table->timestamps();
             $table->softDeletes();
@@ -23,6 +28,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('zones');
+        Schema::dropIfExists('order_lines');
     }
 };

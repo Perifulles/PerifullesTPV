@@ -14,6 +14,7 @@ return new class extends Migration
 
             $table->boolean('active')->default(true);
             $table->string('name');
+            $table->foreignId('restaurant_id')->constrained('restaurants');
 
             $table->timestamps();
             $table->softDeletes();

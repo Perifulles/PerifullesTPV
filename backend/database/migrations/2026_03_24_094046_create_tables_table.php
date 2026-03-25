@@ -17,7 +17,8 @@ return new class extends Migration
 
             $table->foreignId('zone_id')->constrained('zones');
             $table->string('name');
-
+            $table->foreignId('restaurant_id')->constrained('restaurants');
+            
             $table->timestamps();
             $table->softDeletes();
         });

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('pin')->nullable();
+            $table->foreignId('restaurant_id')->constrained('restaurants');
 
             $table->timestamps();
             $table->softDeletes();
