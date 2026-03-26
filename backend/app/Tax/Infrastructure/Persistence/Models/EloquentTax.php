@@ -15,5 +15,6 @@ class EloquentTax extends Model
         'uuid',
         'name',
         'percentage',
+        'restaurant_id',
     ];
 }

@@ -2,28 +2,26 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Family\Infrastructure\Persistence\Models\EloquentFamily;
+use App\Restaurant\Infrastructure\Persistence\Models\EloquentRestaurant;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class FamilySeeder extends Seeder
 {
     public function run(): void
     {
+        $restaurant = EloquentRestaurant::first();
+
         $tipos = ['Bebidas', 'Comida', 'Postres', 'Tapas', 'Licores'];
 
         foreach ($tipos as $tipo) {
-
-            DB::table('families')->insert([
-                [
-                    'uuid' => Str::uuid(),
-                    'name' => $tipo,
-                    'active' => true,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],
+            EloquentFamily::create([
+                'uuid'          => Str::uuid()->toString(),
+                'name'          => $tipo,
+                'active'        => true,
+                'restaurant_id' => $restaurant->id,
             ]);
-        };
+        }
     }
 }

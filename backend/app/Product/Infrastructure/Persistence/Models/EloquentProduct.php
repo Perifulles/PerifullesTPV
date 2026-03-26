@@ -15,6 +15,9 @@ class EloquentProduct extends Model
 
     protected $fillable = [
         'uuid',
+        'family_id',
+        'tax_id',
+        'restaurant_id',
         'image_src',
         'name',
         'price',
