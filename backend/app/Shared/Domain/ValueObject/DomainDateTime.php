@@ -11,8 +11,12 @@ class DomainDateTime
         $this->value = $value ?? new \DateTimeImmutable;
     }
 
-    public static function create(?\DateTimeImmutable $value = null): self
+    public static function create(\DateTimeImmutable|string|null $value = null): self
     {
+        if (is_string($value)) {
+            return new self(new \DateTimeImmutable($value));
+        }
+
         return new self($value);
     }
 

@@ -1,57 +1,60 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\User\Domain\Entity;
 
 use App\Shared\Domain\ValueObject\DomainDateTime;
 use App\Shared\Domain\ValueObject\Email;
 use App\Shared\Domain\ValueObject\Uuid;
-use App\Shared\Domain\ValueObject\PasswordHash;
+use App\User\Domain\ValueObject\Pin;
+use App\User\Domain\ValueObject\PasswordHash;
+use App\User\Domain\ValueObject\UserImageSrc;
 use App\User\Domain\ValueObject\UserName;
+use App\User\Domain\ValueObject\UserRole;
 
-class User
+final class User
 {
     private function __construct(
-        private Uuid $id,
-        private string $role,
-        private ?string $imageSrc,
+        private Uuid $uuid,
+        private UserRole $role,
+        private UserImageSrc $imageSrc,
         private UserName $name,
         private Email $email,
         private PasswordHash $passwordHash,
-        private ?string $pin,
-        private string $restaurantId,
+        private Pin $pin,
+        private Uuid $restaurantId,
         private DomainDateTime $createdAt,
         private DomainDateTime $updatedAt,
     ) {}
 
     public static function dddCreate(
-    Email $email, 
-    UserName $name, 
-    PasswordHash $passwordHash,
-    string $role,
-    string $restaurantId,
-    ?string $imageSrc = null,
-    ?string $pin = null
-
+        Email $email,
+        UserName $name,
+        PasswordHash $passwordHash,
+        UserRole $role,
+        Uuid $restaurantId,
+        ?string $imageSrc = null,
+        ?string $pin = null
     ): self {
-
         $now = DomainDateTime::now();
 
         return new self(
             Uuid::generate(),
             $role,
-            $imageSrc,
+            UserImageSrc::create($imageSrc),
             $name,
             $email,
             $passwordHash,
-            $pin,
+            Pin::create($pin),
             $restaurantId,
             $now,
             $now,
         );
     }
 
-    public static function fromPersistence(
-        string $id,
+    public static function fromPrimitives(
+        string $uuid,
         string $role,
         ?string $imageSrc,
         string $name,
@@ -59,26 +62,71 @@ class User
         string $passwordHash,
         ?string $pin,
         string $restaurantId,
-        \DateTimeImmutable $createdAt,
-        \DateTimeImmutable $updatedAt,
+        string $createdAt,
+        string $updatedAt,
     ): self {
         return new self(
-            Uuid::create($id),
-            $role,
-            $imageSrc,
+            Uuid::create($uuid),
+            UserRole::create($role),
+            UserImageSrc::create($imageSrc),
             UserName::create($name),
             Email::create($email),
             PasswordHash::create($passwordHash),
-            $pin,
-            $restaurantId,
+            Pin::create($pin),
+            Uuid::create($restaurantId),
             DomainDateTime::create($createdAt),
             DomainDateTime::create($updatedAt),
         );
     }
 
-    public function id(): Uuid
+    public function uuid(): Uuid
     {
-        return $this->id;
+        return $this->uuid;
+    }
+
+    public function updateName(UserName $name): void
+    {
+        $this->name = $name;
+        $this->touch();
+    }
+
+    public function updateEmail(Email $email): void
+    {
+        $this->email = $email;
+        $this->touch();
+    }
+
+    public function updateRole(UserRole $role): void
+    {
+        $this->role = $role;
+        $this->touch();
+    }
+
+    public function updatePassword(PasswordHash $passwordHash): void
+    {
+        $this->passwordHash = $passwordHash;
+        $this->touch();
+    }
+
+    public function updateImageSrc(?string $imageSrc): void
+    {
+        $this->imageSrc = UserImageSrc::create($imageSrc);
+        $this->touch();
+    }
+
+    private function touch(): void
+    {
+        $this->updatedAt = DomainDateTime::now();
+    }
+
+    public function role(): UserRole
+    {
+        return $this->role;
+    }
+
+    public function imageSrc(): UserImageSrc
+    {
+        return $this->imageSrc;
     }
 
     public function name(): UserName
@@ -106,22 +154,12 @@ class User
         return $this->updatedAt;
     }
 
-    public function role(): string
-    {
-        return $this->role;
-    }
-
-    public function imageSrc(): ?string
-    {
-        return $this->imageSrc;
-    }
-
-    public function pin(): ?string
+    public function pin(): Pin
     {
         return $this->pin;
     }
 
-    public function restaurantId(): string
+    public function restaurantId(): Uuid
     {
         return $this->restaurantId;
     }
