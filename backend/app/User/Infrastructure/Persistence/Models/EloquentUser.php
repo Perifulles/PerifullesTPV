@@ -1,48 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\User\Infrastructure\Persistence\Models;
 
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Restaurant\Infrastructure\Persistence\Models\EloquentRestaurant;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 class EloquentUser extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens;
     use SoftDeletes;
 
     protected $table = 'users';
 
-    protected static function newFactory(): Factory
-    {
-        return UserFactory::new();
-    }
-
     protected $fillable = [
         'uuid',
+        'restaurant_id',
         'role',
         'image_src',
         'name',
         'email',
         'password',
         'pin',
-        'restaurant_id',
     ];
 
     protected $hidden = [
         'password',
     ];
 
-    protected function casts(): array
+    public function restaurant(): BelongsTo
     {
-        return [
-        ];
-    }
-
-    public function getKeyName(): string
-    {
-        return 'id';
+        return $this->belongsTo(EloquentRestaurant::class, 'restaurant_id');
     }
 }

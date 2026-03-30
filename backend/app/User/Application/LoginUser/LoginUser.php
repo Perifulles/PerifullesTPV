@@ -25,6 +25,7 @@ final class LoginUser
 
 		$user = $this->userRepository->findByEmail($emailVO, $restaurantIdVO);
 
+
 		if ($user === null) {
 			throw new \DomainException('Invalid credentials.');
 		}

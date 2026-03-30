@@ -68,9 +68,13 @@ final class UpdateUser
         $this->auditLogger->log(
             'user',
             $user->uuid()->value(),
-            'update',
+            'updated',
             $oldValues,
-            $response->toArray(),
+            [
+                'name'  => $user->name()->value(),
+                'email' => $user->email()->value(),
+                'role'  => $user->role()->value(),
+            ],
             $actorUuid,
             $user->restaurantId()->value(),
         );
@@ -85,7 +89,7 @@ final class UpdateUser
             'name' => $user->name()->value(),
             'email' => $user->email()->value(),
             'role' => $user->role()->value(),
-            'image_src' => $user->imageSrc()->value(),
+            'image_src' => $user->imageSrc()?->value(),
             'created_at' => $user->createdAt()->format(\DateTimeInterface::ATOM),
             'updated_at' => $user->updatedAt()->format(\DateTimeInterface::ATOM),
         ];

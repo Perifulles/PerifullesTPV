@@ -32,7 +32,7 @@ final class DeleteUser
         $this->auditLogger->log(
             'user',
             $userUuid,
-            'delete',
+            'deleted',
             $oldValues,
             null,
             $actorUuid,
@@ -47,7 +47,7 @@ final class DeleteUser
             'name' => $user->name()->value(),
             'email' => $user->email()->value(),
             'role' => $user->role()->value(),
-            'image_src' => $user->imageSrc()->value(),
+            'image_src' => $user->imageSrc()?->value(),
             'created_at' => $user->createdAt()->format(\DateTimeInterface::ATOM),
             'updated_at' => $user->updatedAt()->format(\DateTimeInterface::ATOM),
         ];

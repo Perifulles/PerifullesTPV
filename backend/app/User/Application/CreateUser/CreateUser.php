@@ -23,15 +23,16 @@ final class CreateUser
     ) {}
 
     public function __invoke(
-        string $restaurantId,
+        string $restaurantUuid,
         string $name,
         string $email,
         string $plainPassword,
         string $role,
-        ?string $imageSrc = null,
         ?string $pin = null,
+        ?string $imageSrc = null,
+        ?string $actorUuid = null,
     ): CreateUserResponse {
-        $restaurantIdVO = Uuid::create($restaurantId);
+        $restaurantIdVO = Uuid::create($restaurantUuid);
         $nameVO = UserName::create($name);
         $emailVO = Email::create($email);
         $passwordHashVO = PasswordHash::create($this->passwordHasher->hash($plainPassword));
@@ -49,18 +50,20 @@ final class CreateUser
 
         $this->userRepository->save($user);
 
-        $response = CreateUserResponse::create($user);
-
         $this->auditLogger->log(
-            'user',
-            $user->uuid()->value(),
-            'create',
-            null,
-            $response->toArray(),
-            null,
-            $restaurantId,
+            entityType: 'user',
+            entityUuid: $user->uuid()->value(),
+            action: 'created',
+            oldValues: null,
+            newValues: [
+                'name'  => $name,
+                'email' => $email,
+                'role'  => $role,
+            ],
+            actorUuid: $actorUuid,
+            restaurantUuid: $restaurantUuid,
         );
 
-        return $response;
+        return CreateUserResponse::create($user);
     }
 }

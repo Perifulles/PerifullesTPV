@@ -29,19 +29,15 @@ final readonly class LoginUserResponse
 		);
 	}
 
-	/**
-	 * @return array<string, string>
-	 */
 	public function toArray(): array
 	{
 		return [
-			'token' => $this->token,
-			'id' => $this->id,
-			'name' => $this->name,
-			'email' => $this->email,
-			'role' => $this->role,
+			'token'         => $this->token,
+			'uuid'          => $this->id,
+			'name'          => $this->name,
+			'email'         => $this->email,
+			'role'          => $this->role,
 			'restaurant_id' => $this->restaurantId,
 		];
 	}
 }
-

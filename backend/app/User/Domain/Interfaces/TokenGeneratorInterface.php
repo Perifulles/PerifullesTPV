@@ -8,5 +8,7 @@ use App\Shared\Domain\ValueObject\Uuid;
 
 interface TokenGeneratorInterface
 {
-    public function generate(Uuid $userId): string;
+    public function generate(Uuid $userUuid): string;
+
+    public function revoke(Uuid $userUuid): void;
 }

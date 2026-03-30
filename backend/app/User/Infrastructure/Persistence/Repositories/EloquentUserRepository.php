@@ -63,7 +63,7 @@ final class EloquentUserRepository implements UserRepositoryInterface
     {
         EloquentUser::where('uuid', $user->uuid()->value())->update([
             'role' => $user->role()->value(),
-            'image_src' => $user->imageSrc()->value(),
+            'image_src' => $user->imageSrc()?->value(),
             'name' => $user->name()->value(),
             'email' => $user->email()->value(),
             'password' => $user->passwordHash()->value(),

@@ -19,7 +19,7 @@ final readonly class GetUserResponse
             'name' => $user->name()->value(),
             'email' => $user->email()->value(),
             'role' => $user->role()->value(),
-            'image_src' => $user->imageSrc()->value(),
+            'image_src' => $user->imageSrc()?->value(),
             'created_at' => $user->createdAt()->format(\DateTimeInterface::ATOM),
             'updated_at' => $user->updatedAt()->format(\DateTimeInterface::ATOM),
         ];

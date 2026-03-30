@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-            $restaurant = EloquentRestaurant::first();
+        $restaurant = EloquentRestaurant::first();
 
         EloquentUser::create([
             'uuid'       => Str::uuid()->toString(),
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
         for ($i = 1; $i <= 3; $i++) {
             EloquentUser::create([
                 'uuid'       => Str::uuid(),
-                'role'       => 'waiter',
+                'role' => 'operator',
                 'name'       => "Camarero $i",
                 'email'      => "camarero$i@tpv.com",
                 'password'   => Hash::make('password'),
