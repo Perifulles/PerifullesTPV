@@ -9,6 +9,8 @@ use App\User\Infrastructure\Persistence\Repositories\EloquentUserRepository;
 use App\User\Infrastructure\Services\LaravelPasswordHasher;
 use App\User\Infrastructure\Services\LaravelTokenGenerator;
 use Illuminate\Support\ServiceProvider;
+use App\Shared\Domain\Interfaces\AuditLoggerInterface;
+use App\Shared\Infrastructure\Services\EloquentAuditLogger;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
         $this->app->bind(PasswordHasherInterface::class, LaravelPasswordHasher::class);
         $this->app->bind(TokenGeneratorInterface::class, LaravelTokenGenerator::class);
+        $this->app->bind(AuditLoggerInterface::class, EloquentAuditLogger::class);
     }
 
     /**

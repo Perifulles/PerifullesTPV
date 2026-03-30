@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Application\CreateUser;
 
+use App\Shared\Domain\Interfaces\AuditLoggerInterface;
 use App\Shared\Domain\ValueObject\Email;
 use App\Shared\Domain\ValueObject\Uuid;
 use App\User\Domain\Entity\User;
@@ -18,6 +19,7 @@ final class CreateUser
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
         private readonly PasswordHasherInterface $passwordHasher,
+        private readonly AuditLoggerInterface $auditLogger,
     ) {}
 
     public function __invoke(
@@ -47,6 +49,18 @@ final class CreateUser
 
         $this->userRepository->save($user);
 
-        return CreateUserResponse::create($user);
+        $response = CreateUserResponse::create($user);
+
+        $this->auditLogger->log(
+            'user',
+            $user->uuid()->value(),
+            'create',
+            null,
+            $response->toArray(),
+            null,
+            $restaurantId,
+        );
+
+        return $response;
     }
 }
