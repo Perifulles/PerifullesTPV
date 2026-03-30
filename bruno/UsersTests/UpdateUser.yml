@@ -1,0 +1,27 @@
+info:
+  name: UpdateUser
+  type: http
+  seq: 12
+
+http:
+  method: PUT
+  url: http://localhost:8000/api/users/3c7cdddf-f38d-4e55-94b8-1d1944be939d
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Accept
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Test User Actualizado",
+          "role": "supervisor"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

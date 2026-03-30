@@ -1,0 +1,20 @@
+info:
+  name: GetUser
+  type: http
+  seq: 10
+
+http:
+  method: GET
+  url: http://localhost:8000/api/users/3c7cdddf-f38d-4e55-94b8-1d1944be939d
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Accept
+      value: application/json
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

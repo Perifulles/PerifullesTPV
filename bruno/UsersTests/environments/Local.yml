@@ -1,0 +1,8 @@
+name: Local
+variables:
+  - name: token
+    value: 5|jvxJCOENQI7QhbV1Z95MkKtdC9BHLhfwaLvuaTHG99d9e686
+  - name: restaurant_uuid
+    value: 3ba5a32b-7611-4e3a-8806-68de6d538fed
+  - name: user_uuid
+    value: 6ce51069-b891-427b-b0da-eb14ec2bde8a

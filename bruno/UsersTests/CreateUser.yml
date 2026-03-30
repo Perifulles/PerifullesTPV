@@ -1,0 +1,29 @@
+info:
+  name: CreateUser
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: http://localhost:8000/api/users
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Accept
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Test User",
+          "email": "test2@tpv.com",
+          "password": "password",
+          "role": "operator"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
